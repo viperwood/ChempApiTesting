@@ -1,0 +1,6 @@
+@ApiChemp_HostAddress = http://localhost:5298
+
+GET {{ApiChemp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
