@@ -1,12 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiChemp.Controllers;
-
+[Controller]
+[Route("api/[controller]")]
 public class NapravlenController : Controller
 {
-    // GET
-    public IActionResult Index()
+    [HttpGet("GetNaprav")]
+    public IActionResult GetNaprav()
     {
-        return View();
+        return Ok(Helper.Database.Napravlenia.Select(x => new
+        {
+            x.Id,
+            x.Namenaprav
+        }));
     }
 }

@@ -1,12 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiChemp.Controllers;
-
+[Controller]
+[Route("api/[controller]")]
 public class DoctorsController : Controller
 {
-    // GET
-    public IActionResult Index()
+    [HttpGet("GetDoctors")]
+    public IActionResult GetDoctors()
     {
-        return View();
+        return Ok(Helper.Database.Users.Where(x => x.Roleuser == 1).Select(x => new
+        {
+            x.Id,
+            x.Nameuser
+        }).ToList());
     }
 }

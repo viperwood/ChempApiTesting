@@ -26,7 +26,11 @@ public partial class PostgresContext : DbContext
 
     public virtual DbSet<Medcart> Medcarts { get; set; }
 
+    public virtual DbSet<Napravlenium> Napravlenia { get; set; }
+
     public virtual DbSet<Patient> Patients { get; set; }
+
+    public virtual DbSet<Raspisanie> Raspisanies { get; set; }
 
     public virtual DbSet<Resept> Resepts { get; set; }
 
@@ -182,6 +186,18 @@ public partial class PostgresContext : DbContext
                 .HasConstraintName("medcarts_patientid_fkey");
         });
 
+        modelBuilder.Entity<Napravlenium>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("napravlenia_pkey");
+
+            entity.ToTable("napravlenia", "BDChemp");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Namenaprav)
+                .HasMaxLength(100)
+                .HasColumnName("namenaprav");
+        });
+
         modelBuilder.Entity<Patient>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("patients_pkey");
@@ -218,6 +234,31 @@ public partial class PostgresContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Patients)
                 .HasForeignKey(d => d.Userid)
                 .HasConstraintName("patients_userid_fkey");
+        });
+
+        modelBuilder.Entity<Raspisanie>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("raspisanie_pkey");
+
+            entity.ToTable("raspisanie", "BDChemp");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Datapriema)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("datapriema");
+            entity.Property(e => e.Doctorid).HasColumnName("doctorid");
+            entity.Property(e => e.Napravlenie).HasColumnName("napravlenie");
+            entity.Property(e => e.Title)
+                .HasMaxLength(100)
+                .HasColumnName("title");
+
+            entity.HasOne(d => d.Doctor).WithMany(p => p.Raspisanies)
+                .HasForeignKey(d => d.Doctorid)
+                .HasConstraintName("raspisanie_doctorid_fkey");
+
+            entity.HasOne(d => d.NapravlenieNavigation).WithMany(p => p.Raspisanies)
+                .HasForeignKey(d => d.Napravlenie)
+                .HasConstraintName("raspisanie_napravlenie_fkey");
         });
 
         modelBuilder.Entity<Resept>(entity =>
