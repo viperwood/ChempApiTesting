@@ -15,5 +15,17 @@ public partial class Resept
 
     public string Procedur { get; set; } = null!;
 
+    public string? Doza { get; set; }
+
+    public string? Format { get; set; }
+
+    public string? Napravlen { get; set; }
+
+    public int? Issledovanie { get; set; }
+
+    public string? Procedure { get; set; }
+
     public virtual Event? Event { get; set; }
+
+    public virtual Issledtipe? IssledovanieNavigation { get; set; }
 }

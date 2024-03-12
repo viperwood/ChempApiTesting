@@ -13,6 +13,10 @@ public partial class Medcart
 
     public string Diagnos { get; set; } = null!;
 
+    public string? Anamnis { get; set; }
+
+    public string? Simptomatica { get; set; }
+
     public virtual ICollection<Event> Events { get; set; } = new List<Event>();
 
     public virtual Patient? Patient { get; set; }

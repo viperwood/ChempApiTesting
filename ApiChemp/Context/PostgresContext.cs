@@ -18,7 +18,11 @@ public partial class PostgresContext : DbContext
 
     public virtual DbSet<Event> Events { get; set; }
 
+    public virtual DbSet<Fullinfopatient> Fullinfopatients { get; set; }
+
     public virtual DbSet<Gender> Genders { get; set; }
+
+    public virtual DbSet<Issledtipe> Issledtipes { get; set; }
 
     public virtual DbSet<Medcart> Medcarts { get; set; }
 
@@ -29,6 +33,8 @@ public partial class PostgresContext : DbContext
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<Tipeevent> Tipeevents { get; set; }
+
+    public virtual DbSet<Trigertable> Trigertables { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -76,6 +82,58 @@ public partial class PostgresContext : DbContext
                 .HasConstraintName("events_medcartid_fkey");
         });
 
+        modelBuilder.Entity<Fullinfopatient>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("fullinfopatient", "BDChemp");
+
+            entity.Property(e => e.Adres)
+                .HasMaxLength(100)
+                .HasColumnName("adres");
+            entity.Property(e => e.Bethday)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("bethday");
+            entity.Property(e => e.Datafinishpolis)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("datafinishpolis");
+            entity.Property(e => e.Datagetmeadcart)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("datagetmeadcart");
+            entity.Property(e => e.Datalastvisit)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("datalastvisit");
+            entity.Property(e => e.Datanextvisit)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("datanextvisit");
+            entity.Property(e => e.Emailuser)
+                .HasMaxLength(100)
+                .HasColumnName("emailuser");
+            entity.Property(e => e.Foto)
+                .HasMaxLength(100)
+                .HasColumnName("foto");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Namegender)
+                .HasMaxLength(100)
+                .HasColumnName("namegender");
+            entity.Property(e => e.Nameuser)
+                .HasMaxLength(100)
+                .HasColumnName("nameuser");
+            entity.Property(e => e.Numbermedcart).HasColumnName("numbermedcart");
+            entity.Property(e => e.Numberpolis).HasColumnName("numberpolis");
+            entity.Property(e => e.Pasportn).HasColumnName("pasportn");
+            entity.Property(e => e.Pasports).HasColumnName("pasports");
+            entity.Property(e => e.Phone)
+                .HasMaxLength(100)
+                .HasColumnName("phone");
+            entity.Property(e => e.Strahovcompani)
+                .HasMaxLength(100)
+                .HasColumnName("strahovcompani");
+            entity.Property(e => e.Worck)
+                .HasMaxLength(100)
+                .HasColumnName("worck");
+        });
+
         modelBuilder.Entity<Gender>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("genders_pkey");
@@ -88,6 +146,18 @@ public partial class PostgresContext : DbContext
                 .HasColumnName("namegender");
         });
 
+        modelBuilder.Entity<Issledtipe>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("issledtipe_pkey");
+
+            entity.ToTable("issledtipe", "BDChemp");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Nameissled)
+                .HasMaxLength(100)
+                .HasColumnName("nameissled");
+        });
+
         modelBuilder.Entity<Medcart>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("medcarts_pkey");
@@ -95,11 +165,17 @@ public partial class PostgresContext : DbContext
             entity.ToTable("medcarts", "BDChemp");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Anamnis)
+                .HasColumnType("character varying")
+                .HasColumnName("anamnis");
             entity.Property(e => e.Diagnos)
                 .HasMaxLength(100)
                 .HasColumnName("diagnos");
             entity.Property(e => e.Numbermedcart).HasColumnName("numbermedcart");
             entity.Property(e => e.Patientid).HasColumnName("patientid");
+            entity.Property(e => e.Simptomatica)
+                .HasColumnType("character varying")
+                .HasColumnName("simptomatica");
 
             entity.HasOne(d => d.Patient).WithMany(p => p.Medcarts)
                 .HasForeignKey(d => d.Patientid)
@@ -151,13 +227,26 @@ public partial class PostgresContext : DbContext
             entity.ToTable("resepts", "BDChemp");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Doza)
+                .HasMaxLength(100)
+                .HasColumnName("doza");
             entity.Property(e => e.Eventid).HasColumnName("eventid");
+            entity.Property(e => e.Format)
+                .HasMaxLength(100)
+                .HasColumnName("format");
+            entity.Property(e => e.Issledovanie).HasColumnName("issledovanie");
+            entity.Property(e => e.Napravlen)
+                .HasMaxLength(100)
+                .HasColumnName("napravlen");
             entity.Property(e => e.Preparat)
                 .HasMaxLength(100)
                 .HasColumnName("preparat");
             entity.Property(e => e.Procedur)
                 .HasMaxLength(100)
                 .HasColumnName("procedur");
+            entity.Property(e => e.Procedure)
+                .HasMaxLength(100)
+                .HasColumnName("procedure");
             entity.Property(e => e.Recomendation)
                 .HasMaxLength(100)
                 .HasColumnName("recomendation");
@@ -165,6 +254,10 @@ public partial class PostgresContext : DbContext
             entity.HasOne(d => d.Event).WithMany(p => p.Resepts)
                 .HasForeignKey(d => d.Eventid)
                 .HasConstraintName("resepts_eventid_fkey");
+
+            entity.HasOne(d => d.IssledovanieNavigation).WithMany(p => p.Resepts)
+                .HasForeignKey(d => d.Issledovanie)
+                .HasConstraintName("resepts_fk");
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -189,6 +282,28 @@ public partial class PostgresContext : DbContext
             entity.Property(e => e.Nameevent)
                 .HasMaxLength(100)
                 .HasColumnName("nameevent");
+        });
+
+        modelBuilder.Entity<Trigertable>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("trigertable_pkey");
+
+            entity.ToTable("trigertable", "BDChemp");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Lastsecuritypointdirection)
+                .HasMaxLength(100)
+                .HasColumnName("lastsecuritypointdirection");
+            entity.Property(e => e.Lastsecuritypointnumber)
+                .HasMaxLength(100)
+                .HasColumnName("lastsecuritypointnumber");
+            entity.Property(e => e.Lastsecuritypointtime)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("lastsecuritypointtime");
+            entity.Property(e => e.Personcode).HasColumnName("personcode");
+            entity.Property(e => e.Personrole)
+                .HasMaxLength(100)
+                .HasColumnName("personrole");
         });
 
         modelBuilder.Entity<User>(entity =>

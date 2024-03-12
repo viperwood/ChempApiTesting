@@ -106,3 +106,4 @@ C:\Users\prdb\RiderProjects\ApiChemp\ApiChemp\obj\Debug\net8.0\refint\ApiChemp.d
 C:\Users\prdb\RiderProjects\ApiChemp\ApiChemp\obj\Debug\net8.0\ApiChemp.pdb
 C:\Users\prdb\RiderProjects\ApiChemp\ApiChemp\obj\Debug\net8.0\ApiChemp.genruntimeconfig.cache
 C:\Users\prdb\RiderProjects\ApiChemp\ApiChemp\obj\Debug\net8.0\ref\ApiChemp.dll
+C:\Users\prdb\RiderProjects\ApiChemp\ApiChemp\obj\Debug\net8.0\ApiChemp.sourcelink.json

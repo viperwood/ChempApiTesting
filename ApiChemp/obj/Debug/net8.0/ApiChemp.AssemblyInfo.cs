@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ApiChemp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f439cd7f9af6aaa10ef6e8d70b9fd8d7453dd427")]
 [assembly: System.Reflection.AssemblyProductAttribute("ApiChemp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ApiChemp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
